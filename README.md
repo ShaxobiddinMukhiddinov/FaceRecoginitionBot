@@ -1,2 +1,2 @@
-# FaceRecoginitionBot
+# FaceRecognitionBot
 Face recoginition with TelegramBot
