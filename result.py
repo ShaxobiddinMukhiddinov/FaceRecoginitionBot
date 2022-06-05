@@ -6,7 +6,7 @@ import random
 from telegram.ext import Updater, CommandHandler, MessageHandler, CallbackQueryHandler, Filters
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand, InputMediaPhoto
 
-ADMIN_ID = " "
+ADMIN_ID = "ID"
 token = 'Token'
 
 
@@ -56,7 +56,7 @@ def inline_handler(update, context):
         query.message.reply_media_group(
             media=[
                 # InputMediaPhoto(media=open("rasmlar/Jeki ch.jpg", "rb")),
-                InputMediaPhoto(media=open("App/new_photo.jpg", "rb")),
+                InputMediaPhoto(media=open("Apps/new_photo.jpg", "rb")),
                 InputMediaPhoto(media=f"https://picsum.photos/id/{random.randint(1, 100)}/400/200"),
                 InputMediaPhoto(media=f"https://picsum.photos/id/{random.randint(45, 100)}/400/200")
             ]
@@ -73,15 +73,16 @@ def photo_handler(update, context):
     # Botga media fayllar tashlnganida uni yuklab olish;
     file = update.message.photo[-1].file_id
     obj = context.bot.get_file(file)
-    obj.download('App/new_photo.jpg')
+    obj.download('Apps/new_photo.jpg')
 
     with open("encode.json") as json_file:
         data = json.load(json_file)
 
     known_face_encodings = [np.asarray(i['encoding']) for i in data]
-    face_name = [f" Astrum talabasi\nYo'nalishi: {i['dir']}\nIsm Sharifi: {i['name']}" for i in data]
+    # face_name = [f" Astrum talabasi\nYo'nalishi: {i['dir']}\nIsm Sharifi: {i['name']}" for i in data]
+    face_name = [f" Tanishing: {i['name']} \n {i['dir']}" for i in data]
 
-    unknown = face_recognition.load_image_file('App/new_photo.jpg')
+    unknown = face_recognition.load_image_file('Apps/new_photo.jpg')
     unknown_encoding = face_recognition.face_encodings(unknown)[0]
 
     result = face_recognition.api.compare_faces(known_face_encodings, unknown_encoding, tolerance=0.5)
